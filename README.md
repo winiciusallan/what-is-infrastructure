@@ -10,6 +10,10 @@ Some text here (again)
 ## Infrastructure as Code
 Lorem ipsum
 
+```
+terraform init
+```
+
 ## Getting your hands dirty
 Some practice here with terraform, ansible and docker
 
