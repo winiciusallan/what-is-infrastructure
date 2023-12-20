@@ -1,6 +1,7 @@
 ---
 - name: Install Docker
   hosts: all
+  remote_user: ubuntu
   become: true
   tasks:
   - name: Update packages
@@ -10,21 +11,29 @@
       - gnupg
       - ca-certificates
       update_cache: yes
+      state: present
 
-  - name: Add docker GPG key
-    shell: |
-      sudo install -m 0755 -d /etc/apt/keyrings
-      curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-      sudo chmod a+r /etc/apt/keyrings/docker.gpg
+  - name: Install keyring binary
+    shell: install -m 0755 -d /etc/apt/keyrings
+
+  - name: Download GPG key
+    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg
+
+  - name: Decrypt GPG key
+    shell: gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+
+  - name: Change key permissions
+    shell: chmod a+r /etc/apt/keyrings/docker.gpg
 
   - name: Add repository to apt source
     shell: |
       echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+
       sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
-      apt update -y
+      sudo apt update -y
 
   - name: Install Docker packages
     apt:
