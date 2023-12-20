@@ -7,7 +7,14 @@ Nowadays, exists many types of infra. Tha main ones are the traditional and thos
 Has been more common the use of public Cloud as AWS, Azure, GCP and many others, but you can also build your own cloud environment with Open-source project as [OpenStack](https://www.openstack.org/)]
 
 ## Understanding infrastructure and virtualization
-Some text here
+### Motivations
+In the past, is easy to see physical servers with individual tasks, individual purposes, individual operating systems. In a first moment, that seems good, because we separate equally what which server will run, but this
+wastes a lot of computing resources that will end up being unused. That way, rises a technology to virtualize that resources which we call **virtualization**.
+
+### How does it work?
+<p align="center">
+  <img src="https://www.redhat.com/rhdc/managed-files/styles/wysiwyg_float/private/how-virtualization-works-400x217.png?itok=p96ctcWY">
+</p>
 
 ## Virtual Machine x Container
 Some text here (again)
