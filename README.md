@@ -4,7 +4,7 @@ IT infrastructure is a set of componenents that together serve to deliver servic
 Nowadays, exists many types of infra. Tha main ones are the traditional and those that use cloud computing.
 - Traditional: All components are managed by the company itself in datacenters that are located in their facilities.
 - Cloud: Cloud computing is provide the resources across the internet, managed by softwares that delivers machines, storage, network and so on.
-Has been more common the use of public Cloud as AWS, Azure, GCP and many others, but you can also build your own cloud environment with Open-source project as [OpenStack](https://www.openstack.org/)]
+Has been more common the use of public Cloud as AWS, Azure, GCP and many others, but you can also build your own cloud environment with Open-source project as [OpenStack](https://www.openstack.org/)
 
 ## Understanding infrastructure and virtualization
 ### Motivations

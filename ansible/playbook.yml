@@ -14,26 +14,31 @@
       state: present
 
   - name: Install keyring binary
-    shell: install -m 0755 -d /etc/apt/keyrings
+    shell: sudo install -m 0755 -d /etc/apt/keyrings
 
   - name: Download GPG key
-    shell: curl -fsSL https://download.docker.com/linux/ubuntu/gpg
-
-  - name: Decrypt GPG key
-    shell: gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    deb822_repository:
+      name: docker
+      types: deb
+      uris: https://download.docker.com/linux/ubuntu
+      suites: "{{ ansible_distribution_release }}"
+      components: stable
+      architectures: amd64
+      signed_by: https://download.docker.com/linux/ubuntu/gpg
 
   - name: Change key permissions
     shell: chmod a+r /etc/apt/keyrings/docker.gpg
 
-  - name: Add repository to apt source
-    shell: |
-      echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-
-      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-      sudo apt update -y
+    # Add this command using module
+      #  - name: Add repository to apt source
+      #    shell: |
+      #      echo \
+      #      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      #      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      #
+      #      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
+      #
+      #      sudo apt update -y
 
   - name: Install Docker packages
     apt:
