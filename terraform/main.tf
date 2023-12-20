@@ -1,0 +1,5 @@
+terraform {
+  provider "libvirt" {
+  }
+
+}
