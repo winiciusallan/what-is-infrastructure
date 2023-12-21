@@ -4,6 +4,17 @@
   remote_user: ubuntu
   become: true
   tasks:
+  - name: Check if docker.list already exists
+    stat:
+      path: /etc/apt/sources.list.d/docker.list
+    register: list_file
+
+  - name: Remove the docker list if exists
+    file:
+      state: absent
+      path: /etc/apt/sources.list.d/docker.list
+    when: list_file.stat.exists
+
   - name: Update packages
     apt:
       pkg:
@@ -27,18 +38,18 @@
       signed_by: https://download.docker.com/linux/ubuntu/gpg
 
   - name: Change key permissions
-    shell: chmod a+r /etc/apt/keyrings/docker.gpg
+    file:
+      path: /etc/apt/keyrings/docker.asc
+      mode: '0744'
 
-    # Add this command using module
-      #  - name: Add repository to apt source
-      #    shell: |
-      #      echo \
-      #      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      #      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      #
-      #      sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-      #
-      #      sudo apt update -y
+  - name: Register in output docker repository
+    shell: echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable"
+    register: shell_output
+
+  - name: Copy to sourcelist the repository
+    copy:
+      content: "{{ shell_output.stdout }}"
+      dest: /etc/apt/sources.list.d/docker.list
 
   - name: Install Docker packages
     apt:
@@ -48,3 +59,10 @@
       - containerd.io
       - docker-buildx-plugin
       - docker-compose-plugin
+      update_cache: yes
+
+  - name: Change remote user permission to user docker
+    user:
+      name: "{{ ansible_ssh_user }}"
+      groups: docker
+      append: yes
