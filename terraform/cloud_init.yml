@@ -1,0 +1,17 @@
+---
+# A simple cloud init
+hostname: "infrastructure"
+ssh_pwauth: True
+users:
+  - default
+  - name: ubuntu
+    groups: sudo
+    shell: /bin/bash
+    sudo: ['ALL=(ALL) NOPASSWD:ALL']
+    ssh-authorized-keys:
+      - "insert your key here" 
+    lock-passwd: False
+
+    # To generate passwd run 
+    # $ echo "your-password" | mkpasswd -m sha-512 -s
+    passwd: $6$cKckyX9FuCaE06U5$kO.J.Cx1jMeb30zObfHcotpX4jl8VbQhEAXWEcpoYCUtbATd6hL3vSAYIyvqALsXg3iN7wULVi.97ers/2BfP/
