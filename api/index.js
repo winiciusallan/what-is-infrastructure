@@ -41,6 +41,6 @@ app.post('/data', async (req, res) => {
 })
 
 app.listen(PORT, () => {
-  console.log("Api is listening on ${PORT}");
+  console.log(`Api is listening on ${PORT}`);
 });
 
