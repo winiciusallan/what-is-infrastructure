@@ -12,9 +12,14 @@ In the past, is easy to see physical servers with individual tasks, individual p
 wastes a lot of computing resources that will end up being unused. That way, rises a technology to virtualize that resources which we call **virtualization**.
 
 ### How does it work?
+The softwares called **Hypervisors** are the responsibles for create and execute Virtual Machines. It virtualize the resources as CPU and RAM and manage them between **host machine** (physical machine) and **guest machine** (VM).
 <p align="center">
-  <img src="https://www.redhat.com/rhdc/managed-files/styles/wysiwyg_float/private/how-virtualization-works-400x217.png?itok=p96ctcWY">
+  <img src="https://miro.medium.com/v2/resize:fit:1200/1*NRfDEFpKRG4tdMw_VMamrw.png">
 </p>
+Exists two main types of hypervisors, type 1 and type 2.
+
+- The type 1 is commonly called as Baremetal, its runs directly on host hardware to manage the guests OS. It plays the role of an operational system. Some examples of this hypervisor is KVM (Kernel-based Virtual Machine) and VMWare V-Sphere.
+- The type 2 is called as Hosted. It works as an application above the conventional OS and its the most commom hypervisor for those who want to run and test other operational system on top of existing ones.
 
 ## Virtual Machine x Container
 Some text here (again)
