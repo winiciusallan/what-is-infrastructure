@@ -22,13 +22,19 @@ Some text here (again)
 ## Infrastructure as Code
 Lorem ipsum
 
-
+## Setup environment (Ubuntu/Debian)
+```shell
+wget -O- https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
+echo "deb [signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
+sudo apt update && sudo apt install terraform
+```
 
 ## Getting your hands dirty
 Some practice here with terraform, ansible and docker
 ```hcl
 terraform init
 ```
+
 ---
 ### Referencies
 - [What is IT Infrastructure?](https://www.redhat.com/en/topics/cloud-computing/what-is-it-infrastructure)
