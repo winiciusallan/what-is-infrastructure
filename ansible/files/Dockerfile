@@ -1,13 +1,13 @@
-FROM python:3.9.18-bullseye
+FROM node:20-alpine
 
-RUN git clone https://github.com/winiciusallan/rinha-backend-django.git /rinha
+WORKDIR /app
 
-WORKDIR /rinha/app
+COPY package*.json .
 
-RUN pip install -r requirements.txt
+RUN npm i
 
-EXPOSE 80
+COPY . .
 
-CMD python manage.py makemigrations && python manage.py migrate 
+EXPOSE 3000
 
-ENTRYPOINT python manage.py runserver 0.0.0.0:80 
+CMD node index.js
