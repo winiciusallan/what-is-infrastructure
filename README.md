@@ -19,8 +19,11 @@ wastes a lot of computing resources that will end up being unused. That way, ris
 ## Virtual Machine x Container
 Some text here (again)
 
-## Infrastructure as Code
-Lorem ipsum
+# Infrastructure as Code
+
+## Terraform
+### What is it?
+Basically, HashiCorp Terraform is a IaC tool that allows you to define cloud and on-prem resources in human-readable configuration files (.yaml / .hcl), this type of format facilitates versioning, encapsulation and also manage low-level components like compute, storage and networking resources, as well as high-level components like DNS entries and SaaS features.
 
 ## Setup environment (Ubuntu/Debian)
 ```shell
