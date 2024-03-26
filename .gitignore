@@ -1,5 +1,6 @@
 .env
 !.env.sample
+node_modules
 
 # Crash log files
 crash.log
