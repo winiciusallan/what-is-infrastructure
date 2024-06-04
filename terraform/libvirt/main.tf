@@ -10,7 +10,7 @@ terraform {
 
 provider "libvirt" {
   # uri = "qemu+ssh://root@10.3.2.27/system?keyfile="
-  # uri = "qemu+ssh://root@10.3.2.27:22/system?sshauth=ssh-password&keyfile="
+  uri = "qemu+ssh://suporte@10.3.2.27/system?sshauth=ssh-password"
   # uri = "qemu:///system" 
 }
 
@@ -22,18 +22,41 @@ resource "libvirt_volume" "ubuntu22" {
 
 }
 
-resource "libvirt_domain" "web1" {
-  name   = "test"
+resource "libvirt_domain" "test" {
+  name = "test"
   memory = 2048
-  vcpu   = 1
-  cpu    = {
+  vcpu = 1
+  cpu {
     mode = "host-passthrough"
   }
+  autostart = true
+
   disk {
     volume_id = libvirt_volume.ubuntu22.id
-
   }
+
+  cloudinit = libvirt_cloudinit_disk.commoninit.id
+
+  network_interface {
+  # default network config 
+  # network_name = "default"
+    bridge =  "br0"
+  }
+  
+  qemu_agent = true
+
 }
 
+output "IPS" {
+  value = libvirt_domain.test.*.network_interface.0.addresses
+}
 
+data "template_file" "user_data" {
+  template = file("${path.module}/cloud_init.cfg")
+}
 
+resource "libvirt_cloudinit_disk" "commoninit" {
+  name           = "commoninit.iso"
+  user_data      = data.template_file.user_data.rendered
+  pool           = "images"
+}
