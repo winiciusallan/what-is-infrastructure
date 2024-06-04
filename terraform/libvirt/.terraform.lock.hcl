@@ -2,9 +2,10 @@
 # Manual edits may be lost in future updates.
 
 provider "registry.terraform.io/dmacvicar/libvirt" {
-  version = "0.7.6"
+  version     = "0.7.6"
+  constraints = "0.7.6"
   hashes = [
-    "h1:g53oDOhYVkBTf8oGRQdapTkiIVA/0HmgfRfRrjkLgDE=",
+    "h1:h5AOtaYpdnjPPtjKw2PsNmjZ9VmjnAgqXTndl3Mwwug=",
     "zh:0bde54f6f658b20b620b875daf106b5b25b1bae4d15408d6c5f06d58360e254d",
     "zh:0c97c6930015918b8a34b6d7a2b0c3d17a649c226fcd1874fcba5bbbc0f35972",
     "zh:1bdd7aa0011c5f024a09a124836ee9bc8e71b05a6ece810c61824275fd3f695f",
@@ -19,5 +20,12 @@ provider "registry.terraform.io/dmacvicar/libvirt" {
     "zh:da4406a2428a9a7e98272c032cb93431c3919253af2fe9934b532d26c0deab09",
     "zh:f63dbd8e579ab5268d01ffab4503b8a8e736b70d1a04e4f271559ba8dd133dcd",
     "zh:f85c1d9e51a94ecde137435c9d6b0fb7be590437ea8a725334d1577eebbc550c",
+  ]
+}
+
+provider "registry.terraform.io/hashicorp/template" {
+  version = "2.2.0"
+  hashes = [
+    "h1:h2rpUBkES/PwO8Ilp/dZMR0j/v/jVlmMnSLVaEzbEm4=",
   ]
 }
