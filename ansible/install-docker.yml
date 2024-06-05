@@ -1,5 +1,5 @@
 ---
-- name: Install Docker
+- name: Install docker engine
   hosts: all
   remote_user: ubuntu
   become: true

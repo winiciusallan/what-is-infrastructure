@@ -1,0 +1,21 @@
+---
+- name: Copy application files
+  hosts: all
+  remote_user: ubuntu
+  become: true
+  vars:
+    - app_source: ../api
+  tasks:
+  - name: Copy files to user home directory
+    synchronize:
+      src: "{{ app_source }}/"
+      dest: "/home/{{ ansible_ssh_user }}/app/"
+      rsync_opts:
+      - "--exclude=node_modules"
+  - name: Change permissions of all files
+    file:
+      path: /home/{{ ansible_ssh_user }}/app
+      state: directory
+      recurse: yes
+      owner: "{{ ansible_ssh_user }}"
+      group: "{{ ansible_ssh_user }}"
