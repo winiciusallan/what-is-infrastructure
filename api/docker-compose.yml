@@ -11,7 +11,7 @@ services:
     restart: unless-stopped
 
   mongo:
-    image: mongo
+    image: mongo:4.4.6
     container_name: my-mongo
     ports:
       - "27017:27017"
