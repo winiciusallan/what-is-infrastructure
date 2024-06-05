@@ -31,6 +31,13 @@ resource "libvirt_volume" "ubuntu22" {
   source = local.image_path
 }
 
+resource "libvirt_volume" "ubuntu22-resized" {
+    name = "nufuturo-resized.qcow2"
+    pool = libvirt_pool.cluster.name
+    base_volume_id = libvirt_volume.ubuntu22.id 
+    size = 15000000000
+}
+
 output "IPS" {
   value = libvirt_domain.vm1.*.network_interface.0.addresses
 }
@@ -57,7 +64,7 @@ resource "libvirt_domain" "vm1" {
   autostart = true
 
   disk {
-    volume_id = libvirt_volume.ubuntu22.id
+    volume_id = libvirt_volume.ubuntu22-resized.id
   }
 
   cloudinit = libvirt_cloudinit_disk.commoninit.id
