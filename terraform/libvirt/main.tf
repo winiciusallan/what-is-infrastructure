@@ -10,14 +10,13 @@ terraform {
 }
 
 locals {
-  host_user = "suporte"
-  pool_path = "/home/${local.host_user}/storage/"
+  host_user  = "suporte"
+  pool_path  = "/home/${local.host_user}/storage/"
+  image_path = "/var/lib/libvirt/images/ubuntu22-04.img"
 }
 
 provider "libvirt" {
-  # uri = "qemu+ssh://suporte@10.3.2.27/system?keyfile="
-  # uri = "qemu+ssh://suporte@10.3.2.27/system?sshauth=ssh-password"
-  uri = "qemu+ssh://suporte@10.3.2.27/system?sshauth=privkey"
+  uri = "qemu:///system"
 }
 
 resource "libvirt_pool" "cluster" {
@@ -28,9 +27,8 @@ resource "libvirt_pool" "cluster" {
 
 resource "libvirt_volume" "ubuntu22" {
   name = "ubuntu22.qcow2"
-  #check pool: virsh pool-dumpxml images
   pool   = libvirt_pool.cluster.name
-  source = "/home/${local.host_user}/jammy-server-cloudimg-amd64.img"
+  source = local.image_path
 }
 
 output "IPS" {
@@ -41,10 +39,15 @@ data "template_file" "user_data" {
   template = file("${path.module}/cloud_init.cfg")
 }
 
+data "template_file" "network_config" {
+  template = file("${path.module}/network_config.cfg")
+}
+
 resource "libvirt_cloudinit_disk" "commoninit" {
-  name      = "commoninit.iso"
-  user_data = data.template_file.user_data.rendered
-  pool      = libvirt_pool.cluster.name
+  name           = "commoninit.iso"
+  user_data      = data.template_file.user_data.rendered
+  network_config = data.template_file.network_config.rendered
+  pool           = libvirt_pool.cluster.name
 }
 
 resource "libvirt_domain" "vm1" {
@@ -61,10 +64,14 @@ resource "libvirt_domain" "vm1" {
 
   network_interface {
     # default network config 
-    # network_name = "default"
-    bridge = "br0"
+    network_name = "default"
+    addresses      = ["192.168.122.5"]
   }
 
-  qemu_agent = true
+  console {
+    type        = "pty"
+    target_type = "serial"
+    target_port = "0"
+  }
 
 }
