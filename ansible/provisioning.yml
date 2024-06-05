@@ -1,0 +1,18 @@
+---
+- name: Provisioning infrastructure
+  gather_facts: no
+  hosts: localhost
+  tasks:
+    - name: Create or update infrastructure
+      community.general.terraform:
+        force_init: true
+        project_path: "{{ playbook_dir }}/../terraform/"
+        state: present
+      tags:
+        - apply
+      register: outputs
+
+    - name: Write VM IP address on inventory file
+      copy:
+        dest: "{{ playbook_dir }}/inventory"
+        content: {{ outputs }}
